@@ -31,6 +31,8 @@ CREDENTIALS_PATH = os.environ.get('CREDENTIALS_PATH', 'credentials.json')
 SERVICE_ACCOUNT_PATH = os.environ.get('SERVICE_ACCOUNT_PATH', 'service_account.json')
 DRIVE_FOLDER_ID = os.environ.get('DRIVE_FOLDER_ID', '')  # Working directory in Google Drive
 
+Cell = Union[str, int, float, bool]
+
 @dataclass
 class SpreadsheetContext:
     """Context for Google Spreadsheet service"""
@@ -195,7 +197,7 @@ def get_sheet_formulas(spreadsheet_id: str,
 def update_cells(spreadsheet_id: str,
                 sheet: str,
                 range: str,
-                data: List[List[Any]],
+                data: List[List[Cell]],
                 ctx: Context = None) -> Dict[str, Any]:
     """
     Update cells in a Google Spreadsheet.
@@ -233,7 +235,7 @@ def update_cells(spreadsheet_id: str,
 @mcp.tool()
 def batch_update_cells(spreadsheet_id: str,
                        sheet: str,
-                       ranges: Dict[str, List[List[Any]]],
+                       ranges: Dict[str, List[List[Cell]]],
                        ctx: Context = None) -> Dict[str, Any]:
     """
     Batch update multiple ranges in a Google Spreadsheet.
